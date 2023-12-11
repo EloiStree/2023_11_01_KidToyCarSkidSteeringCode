@@ -13,8 +13,12 @@ public class ExostCarRCDefaultMono : MonoBehaviour
     public bool m_buttonRightBackOn;
 
 
-    public float m_fullMoveForwardPerSecond = 1;
-    public float m_fullRotationAngleDegreePerSecond = 360;
+    public float m_timeToDoAFullRotationOnPivot = 1.5f;
+    public float m_turnHardAmplification = 1.3f;
+    public float m_turnRatioControl = 1;
+    public float m_forwardDistancePerSecondInMeter = 1;
+
+    public float m_wheelTurnPerSecond=1;
 
     public Transform m_whatToMove;
     public Transform m_exostCarToMoveDirection;
@@ -22,12 +26,47 @@ public class ExostCarRCDefaultMono : MonoBehaviour
     public Transform m_pivotRightFront;
     public Transform m_pivotLeftBack;
     public Transform m_pivotRightBack;
+    public Transform m_pivotRightBackWheelTopAnchor;
 
     public CarRCWheelSpeedMono m_motorLeftFrontOn;
     public CarRCWheelSpeedMono m_motorRightFrontOn;
     public CarRCWheelSpeedMono m_motorLeftBackOn;
     public CarRCWheelSpeedMono m_motorRightBackOn;
 
+    public void SetTimeToMakeFullTurnAroundPivot(float timeToMakeFullTurn)
+    {
+        m_timeToDoAFullRotationOnPivot = timeToMakeFullTurn;
+    }
+
+    public float m_deductedMoveSpeedDuringRotationPerSecond = 1;
+
+
+    public float m_frontWheelDistance = 0;
+    public float m_wheelHeight = 0;
+    public float m_wheelDistancePerTurn = 0;
+    public float m_pivotCircleDistance;
+    public float m_distancePerSecond;
+    public float m_wheelRotationPerSecond;
+    public float m_wheelRotationAnglePerSecond;
+    public float m_pivotAnglePerSecond;
+    public float m_pivotAnglePerSecondAmplified;
+
+    [ContextMenu("Compute Deducted Info")]
+    public void ComputeDeductedInfo()
+    {
+
+        m_pivotAnglePerSecond = 360 / m_timeToDoAFullRotationOnPivot;
+        m_pivotAnglePerSecondAmplified = m_turnHardAmplification* m_pivotAnglePerSecond;
+        m_frontWheelDistance = Vector3.Distance(m_pivotLeftFront.position, m_pivotRightFront.position);
+        m_wheelHeight = Vector3.Distance(m_pivotRightBack.position, m_pivotRightBackWheelTopAnchor.position);
+        m_wheelDistancePerTurn = m_wheelHeight * 2 * (float)Math.PI;
+        m_pivotCircleDistance = m_frontWheelDistance * 2 * (float)Math.PI;
+        m_distancePerSecond = m_pivotCircleDistance / m_timeToDoAFullRotationOnPivot;
+        m_wheelRotationPerSecond = m_distancePerSecond / m_wheelDistancePerTurn;
+        m_wheelRotationAnglePerSecond = m_wheelRotationPerSecond * 360f;
+
+        
+    }
 
 
 
@@ -41,6 +80,8 @@ public class ExostCarRCDefaultMono : MonoBehaviour
         m_motorRightFrontOn.m_rotationSpeedWhenOn = rotationSpeed;
         m_motorLeftBackOn.m_rotationSpeedWhenOn = rotationSpeed;
         m_motorRightBackOn.m_rotationSpeedWhenOn = rotationSpeed;
+
+
     }
 
     public void SetWheelFront() => SetWheelState(1, 1, 1, 1);
@@ -72,52 +113,93 @@ public class ExostCarRCDefaultMono : MonoBehaviour
         wheel.SetMotorInverse(false); wheel.SetMotorOn(true);
         }
     }
-
+    bool isCarGoodSide = false ;
     void Update()
     {
-
+        if (!enabled || !gameObject.activeInHierarchy)
+            return;
         if (ImpossibleSituationOfButtons())
             return;
+        ComputeDeductedInfo();
+
+        isCarGoodSide = m_exostCarToMoveDirection.up.y > 0f;
 
 
-        m_fullMoveForwardPerSecond = Vector3.Distance(m_pivotLeftFront.position, m_pivotRightFront.position)*2*(float)Math.PI ;
+
+        SetWheelRotationSpeed(m_wheelRotationAnglePerSecond);
+        m_deductedMoveSpeedDuringRotationPerSecond = Vector3.Distance(m_pivotLeftFront.position, m_pivotRightFront.position)*2*(float)Math.PI ;
 
         SetWheelState(0,0,0,0);
         if (MoveForward()) {
             SetWheelState(1, 1, 1, 1);
-            m_whatToMove.Translate(m_exostCarToMoveDirection.forward * Time.deltaTime * m_fullMoveForwardPerSecond, Space.World); }
+            
+            if(isCarGoodSide)
+                m_whatToMove.Translate(m_exostCarToMoveDirection.forward * Time.deltaTime * m_distancePerSecond, Space.World);
+            else
+                m_whatToMove.Translate(-m_exostCarToMoveDirection.forward * Time.deltaTime * m_distancePerSecond, Space.World);
+        }
         else if (MoveBackward()) {
 
             SetWheelState(-1, -1, -1, -1);
-            m_whatToMove.Translate(m_exostCarToMoveDirection.forward * Time.deltaTime * -m_fullMoveForwardPerSecond, Space.World); }
+            if (isCarGoodSide)
+                m_whatToMove.Translate(m_exostCarToMoveDirection.forward * Time.deltaTime * -m_distancePerSecond, Space.World);
+            else
+                m_whatToMove.Translate(-m_exostCarToMoveDirection.forward * Time.deltaTime * -m_distancePerSecond, Space.World);
+        }
         else if (TurnLeftHard())
         {
             SetWheelState(-1, 1, -1, 1);
-            m_whatToMove.Rotate(Vector3.up, Time.deltaTime * m_fullRotationAngleDegreePerSecond * 2, Space.Self);
+            if (isCarGoodSide)
+                m_whatToMove.Rotate(Vector3.up, Time.deltaTime * -m_pivotAnglePerSecondAmplified * m_turnRatioControl, Space.Self);
+            else
+                m_whatToMove.Rotate(Vector3.up, Time.deltaTime * m_pivotAnglePerSecondAmplified * m_turnRatioControl, Space.Self);
         }
         else if (TurnRightHard())
         {
             SetWheelState(1, -1, 1, -1);
-            m_whatToMove.Rotate(Vector3.up, Time.deltaTime * -m_fullRotationAngleDegreePerSecond*2, Space.Self);
+            if (isCarGoodSide)
+                m_whatToMove.Rotate(Vector3.up, Time.deltaTime * m_pivotAnglePerSecondAmplified * m_turnRatioControl, Space.Self);
+            else
+                m_whatToMove.Rotate(Vector3.up, Time.deltaTime * -m_pivotAnglePerSecondAmplified * m_turnRatioControl, Space.Self);
         }
         
         else if (TurnLeftLight()) {
 
-            SetWheelState(0, 1, 0, 1); 
-            RotateAround(RotateType.LeftFront); }
+            SetWheelState(0, 1, 0, 1);
+            if (isCarGoodSide)
+                RotateAround(RotateType.LeftFront);
+            else
+                RotateAround(RotateType.LeftBack,true);
+
+        }
         else if (TurnRightLight()) {
 
             SetWheelState(1, 0, 1, 0);
-            RotateAround(RotateType.RightFront); }
+            if (isCarGoodSide)
+                RotateAround(RotateType.RightFront);
+            else
+                RotateAround(RotateType.RightBack, true);
+
+        }
 
         else if (TurnLeftLightBackward()) {
 
             SetWheelState(0, -1, 0, -1);
-            RotateAround(RotateType.LeftBack); }
+            if (isCarGoodSide)
+                RotateAround(RotateType.LeftBack);
+            else
+                RotateAround(RotateType.LeftFront, true);
+
+        }
         else if (TurnRightLightBackward()) {
 
             SetWheelState(-1, 0, -1, 0);
-            RotateAround(RotateType.RightBack); }
+            if (isCarGoodSide)
+                RotateAround(RotateType.RightBack);
+            else
+                RotateAround(RotateType.RightFront, true);
+
+        }
 
     }
 
@@ -154,7 +236,7 @@ public class ExostCarRCDefaultMono : MonoBehaviour
     }
 
     public enum RotateType { LeftFront, RightFront, LeftBack, RightBack}
-    private void RotateAround(RotateType rotateType)
+    private void RotateAround(RotateType rotateType, bool inverseRotation=false)
     {
 
         Transform whatToMove = m_whatToMove;
@@ -191,7 +273,7 @@ public class ExostCarRCDefaultMono : MonoBehaviour
             Vector3 relativePosition = m_whatToMove.position - rotationPoint.position;
 
             // Perform the rotation using Unity's built-in functions.
-            m_whatToMove.RotateAround(rotationPoint.position, Vector3.up, (isBack?1:-1)*m_fullRotationAngleDegreePerSecond * Time.deltaTime * (inverseAngle?-1:1));
+            m_whatToMove.RotateAround(rotationPoint.position, Vector3.up, (isBack?1:-1)* m_pivotAnglePerSecond* m_turnRatioControl * Time.deltaTime * (inverseAngle?-1:1) * (inverseRotation ? -1 : 1) );
 
             // Translate the object back to its original position (if necessary).
             //m_whatToMove.position = rotationPoint.position + relativePosition;
