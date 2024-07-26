@@ -138,6 +138,37 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &2359050666665625512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8224335934994113734}
+  m_Layer: 0
+  m_Name: Right Back Top Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8224335934994113734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2359050666665625512}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.00000035762784}
+  m_LocalPosition: {x: 0.078099996, y: 0.03570001, z: -0.04289997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2608021241698046863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3059210072981976388
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +906,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8224335934994113734}
   - {fileID: 8055550252711027558}
   - {fileID: 6759536296639694782}
   - {fileID: 7385986862493923139}
@@ -902,18 +934,32 @@ MonoBehaviour:
   m_buttonRightFrontOn: 0
   m_buttonLeftBackOn: 0
   m_buttonRightBackOn: 0
-  m_fullMoveForwardPerSecond: 0.1
-  m_fullRotationAngleDegreePerSecond: 360
+  m_timeToDoAFullRotationOnPivot: 1.5
+  m_turnHardAmplification: 1.3
+  m_turnRatioControl: 1
+  m_forwardDistancePerSecondInMeter: 1
+  m_wheelTurnPerSecond: 1
   m_whatToMove: {fileID: 2608021241698046863}
   m_exostCarToMoveDirection: {fileID: 8055550252711027558}
   m_pivotLeftFront: {fileID: 14603587321473727}
   m_pivotRightFront: {fileID: 8133725113937723697}
   m_pivotLeftBack: {fileID: 3526695220954361740}
   m_pivotRightBack: {fileID: 1693055308611124677}
+  m_pivotRightBackWheelTopAnchor: {fileID: 8224335934994113734}
   m_motorLeftFrontOn: {fileID: 5107897125499785621}
   m_motorRightFrontOn: {fileID: 3905130329928104475}
   m_motorLeftBackOn: {fileID: 8511893608491914406}
   m_motorRightBackOn: {fileID: 5886191969516095215}
+  m_deductedMoveSpeedDuringRotationPerSecond: 1
+  m_frontWheelDistance: 0
+  m_wheelHeight: 0
+  m_wheelDistancePerTurn: 0
+  m_pivotCircleDistance: 0
+  m_distancePerSecond: 0
+  m_wheelRotationPerSecond: 0
+  m_wheelRotationAnglePerSecond: 0
+  m_pivotAnglePerSecond: 0
+  m_pivotAnglePerSecondAmplified: 0
 --- !u!54 &1031725466729865014
 Rigidbody:
   m_ObjectHideFlags: 0
