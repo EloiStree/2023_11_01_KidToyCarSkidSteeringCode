@@ -1,0 +1,18 @@
+
+{                                                                                
+  "name": "be.eloistree.skidtoycar",                              
+  "displayName": "Skid Car Toy Code",                        
+  "version": "0.0.1",                         
+  "unity": "2018.1",                             
+  "unityRelease": "",                             
+  "description": "Allow to have a skid car toy in Unity. You have to add the visual part. Physics based on Exost car in real life.",                         
+  "keywords": ["Script","Tool"],                       
+  "dependencies":{},     
+  "relatedPackages":{},     
+  "samples" : [],     
+  "author" : {
+"name":"",
+"mail":"",
+"url":""},   
+  "category": "Script"                   
+} 
