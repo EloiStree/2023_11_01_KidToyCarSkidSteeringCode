@@ -1,10 +1,12 @@
 
 {                                                                   
-            "name": "be.eloistree.carrcexost",          
-    "references": [
+            "name": "be.elab.carrcexostEditor",          
+    "references": ["be.elab.carrcexost"
 ],                                                              
     "optionalUnityReferences": [],                                  
-    "includePlatforms": [],                                                  
+    "includePlatforms": [                                           
+        "Editor"                                                    
+    ],                                                              
     "excludePlatforms": [],                                         
     "allowUnsafeCode": false,                                       
     "overrideReferences": false,                                    
