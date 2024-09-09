@@ -175,7 +175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1491589509117847011
 Transform:
   m_ObjectHideFlags: 0
@@ -329,6 +329,118 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4519711987709233401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5914386278282436967}
+  - component: {fileID: 5131777881019551436}
+  m_Layer: 0
+  m_Name: Input Anchor Ref
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5914386278282436967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4519711987709233401}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2608021241698046863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5131777881019551436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4519711987709233401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8396238b71d339b46934003609d6eb35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_topLeftMotor: {fileID: 9003604634102088445, guid: 907ddd672e07cc34e9434bb1896a9ac5,
+    type: 3}
+  m_topRightMotor: {fileID: -6588733595622555519, guid: 907ddd672e07cc34e9434bb1896a9ac5,
+    type: 3}
+  m_bottomLeftMotor: {fileID: -7923182303877570015, guid: 907ddd672e07cc34e9434bb1896a9ac5,
+    type: 3}
+  m_bottomRightMotor: {fileID: -2712762285709670026, guid: 907ddd672e07cc34e9434bb1896a9ac5,
+    type: 3}
+  m_topLeftMotorEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3914822844384847889}
+        m_TargetAssemblyTypeName: ExostCarRCDefaultMono, be.elab.carrcexost
+        m_MethodName: SetMotorLeftFront
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_topRightMotorEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3914822844384847889}
+        m_TargetAssemblyTypeName: ExostCarRCDefaultMono, be.elab.carrcexost
+        m_MethodName: SetMotorRightFront
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_bottomLeftMotorEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3914822844384847889}
+        m_TargetAssemblyTypeName: ExostCarRCDefaultMono, be.elab.carrcexost
+        m_MethodName: SetMotorLeftBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_bottomRightMotorEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3914822844384847889}
+        m_TargetAssemblyTypeName: ExostCarRCDefaultMono, be.elab.carrcexost
+        m_MethodName: SetMotorRightBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4934312633271485027
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &212678937264182351
 Transform:
   m_ObjectHideFlags: 0
@@ -606,6 +718,7 @@ Transform:
   - {fileID: 6016624658951758676}
   - {fileID: 2570555075419982042}
   - {fileID: 1491589509117847011}
+  - {fileID: 5914386278282436967}
   - {fileID: 212678937264182351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
